@@ -1,7 +1,3 @@
-/* Rendering options */
-$fa=1;
-$fs=0.4;
-
 // The outer diameter of the pipe being used.
 $pipeDiameter = 61; // mm
 
@@ -117,3 +113,6 @@ module flange(pipeDiameter, pipeWallsize) {
 
 }
 
+/* Rendering options */
+$fa=1;
+$fs=0.4;
