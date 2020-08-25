@@ -1,5 +1,5 @@
 // The outer diameter of the pipe being used.
-$pipeDiameter = 61; // mm
+$pipeDiameter = 61; 
 
 // The wall thickness of the pipe portion of the flange
 $pipeWallsize = 1.5; // [1.5:0.1:10]
@@ -12,12 +12,12 @@ $render = "all"; // [all, flange, spacer, gate]
 
 if (($render == "all") || ($render == "flange")) {
     color("gray") {
-        flange($pipeDiameter, $pipeWallsize);
-        
+        flange($pipeDiameter, $pipeWallsize, $fastenerSize);
+
         if(($render == "all")) {
             translate([0,0,-10])
                 rotate([180,0,0])
-                    flange($pipeDiameter, $pipeWallsize);
+                    flange($pipeDiameter, $pipeWallsize, $fastenerSize);
         }
     }
 }
@@ -83,31 +83,31 @@ module spacer(pipeDiameter, pipeWallsize) {
     
 }
 
-module flange(pipeDiameter, pipeWallsize) {
-    $_pipeRadius = ((pipeDiameter / 2) + pipeWallsize);
-    $_flangeSize = ($_pipeRadius + 20) * 2;
+module flange(pipeDiameter, pipeWallsize, fastenerSize) {
+    $_outerPipeRadius = ((pipeDiameter / 2) + pipeWallsize);
+    $_flangeSize = ($_outerPipeRadius + 20) * 2;
 
     difference() {
         union() {
             cube([$_flangeSize, $_flangeSize, 4], center = true);
             
             translate([0,0,2 - 0.001])
-                cylinder(r=$_pipeRadius, h=26);
+                cylinder(r=$_outerPipeRadius, h=26);
         }
         translate([0,0,-4])    
             cylinder(r = $pipeDiameter / 2, h=32);
         
         translate([-($_flangeSize / 2) + 8, -($_flangeSize / 2) + 8, -3])
-            cylinder(r = ($fastenerSize / 2), h=6);
+            cylinder(r = (fastenerSize / 2), h=6);
 
         translate([($_flangeSize / 2) - 8, ($_flangeSize / 2) - 8, -3])
-            cylinder(r = ($fastenerSize / 2), h=6);
+            cylinder(r = (fastenerSize / 2), h=6);
 
         translate([($_flangeSize / 2) - 8, -($_flangeSize / 2) + 8, -3])
-            cylinder(r = ($fastenerSize / 2), h=6);
+            cylinder(r = (fastenerSize / 2), h=6);
 
         translate([-($_flangeSize / 2) + 8, ($_flangeSize / 2) - 8, -3])
-            cylinder(r = ($fastenerSize / 2), h=6);
+            cylinder(r = (fastenerSize / 2), h=6);
 
     }
 
